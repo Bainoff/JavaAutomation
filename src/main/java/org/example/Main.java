@@ -10,15 +10,15 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         System.setProperty("webdriver.chrome.driver","D:\\soft\\automation\\chromedriver\\chromedriver.exe");
-        WebDriver driverGoogle = new ChromeDriver();
-        WebDriver driverOnliner = new ChromeDriver();
 
 //locating element
+        WebDriver driverGoogle = new ChromeDriver();
         driverGoogle.get("https://google.com");
         WebElement entCookies = driverGoogle.findElement(By.xpath("(//a[text()='Odrzuć wszystko'])[2]"));
         entCookies.click();
@@ -29,10 +29,11 @@ public class Main {
 //waiting implicitly
         driverGoogle.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 //waiting explicitly
-        WebElement element = (new WebDriverWait(driverGoogle, Duration.ofSeconds(10))
-                .until(ExpectedConditions.presenceOfElementLocated(By.id("123"))));
+        WebElement element = new WebDriverWait(driverGoogle, Duration.ofSeconds(10))
+                .until(ExpectedConditions.presenceOfElementLocated(By.id("123")));
 
-//attributes properties (getting property (not attribute)
+//getting attributes properties (getting property (not attribute))
+        WebDriver driverOnliner = new ChromeDriver();
         driverOnliner.get("www.onliner.by");
         WebElement element1 = driverOnliner.findElement(By.xpath("(//a[text()='Найти'])[1]"));
         String par = element1.getAttribute("offsetWidth");
@@ -95,8 +96,34 @@ public class Main {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } finally {
-            Thread.sleep(20000);
+            Thread.sleep(2000);
             driverCrossBrowser.quit();
         }
+//disappearing elements
+        WebDriver driverPaginator = new ChromeDriver();
+        WebDriverWait wait = new WebDriverWait(driverPaginator, Duration.ofSeconds(10));
+        try {
+            driverPaginator.get("https://pagination.js.org/");
+            Thread.sleep(2000);
+            List<WebElement> elements = driverPaginator.findElements(By.xpath("//div[@class='data-container']/ul/li"));
+            List<WebElement> pages = driverPaginator.findElements(By.xpath("//div[@class='paginationjs-pages']/ul/li"));
+            String text = elements.get(5).getText();
+            System.out.println(text);
+            pages.get(2).click();
+            wait.until(ExpectedConditions.stalenessOf(elements.get(5)));
+            elements = driverPaginator.findElements(By.xpath("//div[@class='data-container']/ul/li"));
+            text = elements.get(5).getText();
+            System.out.println(text);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            driverPaginator.quit();
+        }
+
+
+        List<WebElement> elements = driverPaginator.findElements(By.xpath("//div[@class='data-container']/ul/li"));
+        List<WebElement> pages = driverPaginator.findElements(By.xpath("//div[@class='paginationjs-pages']/ul/li"));
+        WebDriverWait wait1 = new WebDriverWait(driverGoogle, Duration.ofSeconds(10));
+                wait1.until(ExpectedConditions.stalenessOf(elements.get(5)));
     }
 }
