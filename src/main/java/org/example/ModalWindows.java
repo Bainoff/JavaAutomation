@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
 
 public class ModalWindows {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         System.setProperty("webdriver.chrome.driver", "D:\\soft\\automation\\chromedriver\\chromedriver.exe");
         WebDriver driverMod = new ChromeDriver();
         driverMod.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
