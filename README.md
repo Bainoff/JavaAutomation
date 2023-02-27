@@ -1,5 +1,5 @@
 # JavaAutomation
-Training automation project using Selenium WebDriver and TestNG
+Some testing automation practice using Selenium WebDriver and TestNG and, of course, Java
 
 ![Selenium](https://github.com/Bainoff/JavaAutomation/blob/master/selenium.jpg?raw=true)
 
